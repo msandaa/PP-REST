@@ -11,6 +11,7 @@ from rest_framework import permissions
 from rest_framework.reverse import reverse
 from API.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -29,6 +30,8 @@ class ProduktpassList(generics.ListCreateAPIView):
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Produktpass.objects.all()
     serializer_class = ProduktpassSerializers
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('agrarprodukt',)
 
 
 class ProduktpassDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -36,6 +39,21 @@ class ProduktpassDetail(generics.RetrieveUpdateDestroyAPIView):
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Produktpass.objects.all()
     serializer_class = ProduktpassSerializers
+
+
+class MassnahmenViewSet(viewsets.ModelViewSet):
+
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Massnahmen.objects.all()
+    serializer_class = MassnahmenSerializers
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('produktpass','owner',)
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+'''
 
 class MassnahmenList(generics.ListCreateAPIView):
 
@@ -61,3 +79,4 @@ class UserDetail(generics.RetrieveAPIView):
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    '''
