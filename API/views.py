@@ -2,8 +2,8 @@ from rest_framework import status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
-from API.models import Produktpass, Massnahmen
-from API.serializers import ProduktpassSerializers, MassnahmenSerializers, UserSerializer
+from API.models import Agrarprodukt,Anbau,Anbaumassnahmen
+from API.serializers import AgrarproduktSerializers, UserSerializer,AnbauSerializers,AnbaumassnahmenSerializers
 from rest_framework.views import APIView
 from django.http import Http404
 from django.contrib.auth.models import User
@@ -21,62 +21,49 @@ from django_filters.rest_framework import DjangoFilterBackend
 def api_root(request, format=None):
     return Response({
         'users': reverse('api:users', request=request, format=format),
-        'produktpass': reverse('api:produktpass', request=request, format=format),
-        'massnahmen': reverse('api:massnahmen', request=request, format=format)
+        'agrarprodukt': reverse('api:agrarprodukt', request=request, format=format),
+        'anbau': reverse('api:anbau', request=request, format=format),
+        'anbaumassnahmen': reverse('api:anbaumassnahmen', request=request,format=format)
     })
 
-class ProduktpassList(generics.ListCreateAPIView):
+class AgrarproduktList(generics.ListCreateAPIView):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Produktpass.objects.all()
-    serializer_class = ProduktpassSerializers
+    queryset = Agrarprodukt.objects.all()
+    serializer_class = AgrarproduktSerializers
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('agrarprodukt',)
 
 
-class ProduktpassDetail(generics.RetrieveUpdateDestroyAPIView):
+class AgrarproduktDetail(generics.RetrieveUpdateDestroyAPIView):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Produktpass.objects.all()
-    serializer_class = ProduktpassSerializers
+    queryset = Agrarprodukt.objects.all()
+    serializer_class = AgrarproduktSerializers
 
 
-class MassnahmenViewSet(viewsets.ModelViewSet):
+class AnbauViewSet(viewsets.ModelViewSet):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Massnahmen.objects.all()
-    serializer_class = MassnahmenSerializers
-    filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('produktpass','owner',)
+    queryset = Anbau.objects.all()
+    serializer_class = AnbauSerializers
+'''
+class AnbauList(generics.ListCreateAPIView):
+    queryset = Anbau.objects.all()
+    serializer_class = AnbauSerializers
+
+class AnbauDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Anbau.objects.all()
+    serializer_class = AnbauSerializers'''
+
+
+class AnbaumassnahmenViewSet(viewsets.ModelViewSet):
+
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Anbaumassnahmen.objects.all()
+    serializer_class = AnbaumassnahmenSerializers
+
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-'''
-
-class MassnahmenList(generics.ListCreateAPIView):
-
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Massnahmen.objects.all()
-    serializer_class = MassnahmenSerializers
-
-class MassnahmenDetail(generics.RetrieveUpdateDestroyAPIView):
-
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Massnahmen.objects.all()
-    serializer_class = MassnahmenSerializers
-
-class UserList(generics.ListAPIView):
-
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class UserDetail(generics.RetrieveAPIView):
-
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    '''

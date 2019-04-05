@@ -5,14 +5,25 @@ from django.conf.urls import include
 from rest_framework.authtoken.views import obtain_auth_token
 
 
-from API.views import MassnahmenViewSet, UserViewSet, api_root
+from API.views import  UserViewSet, api_root, AnbaumassnahmenViewSet, AnbauViewSet
 from rest_framework import renderers
 
-massnahmen_list = MassnahmenViewSet.as_view({
+anbau_list = AnbauViewSet.as_view({
     'get': 'list',
     'post': 'create'
 })
-massnahmen_detail = MassnahmenViewSet.as_view({
+anbau_detail = AnbauViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+anbaumassnahmen_list = AnbaumassnahmenViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+anbaumassnahmen_detail = AnbaumassnahmenViewSet.as_view({
     'get': 'retrieve',
     'put': 'update',
     'patch': 'partial_update',
@@ -31,11 +42,14 @@ urlpatterns = [
 
     path('', views.api_root),
 
-    path('produktpass/', views.ProduktpassList.as_view(), name='produktpass'),
-    path('produktpass/<int:pk>/', views.ProduktpassDetail.as_view(), name='produktpass-detail'),
+    path('agrarprodukt/', views.AgrarproduktList.as_view(), name='agrarprodukt'),
+    path('agrarprodukt/<int:pk>/', views.AgrarproduktDetail.as_view(), name='agrarprodukt-detail'),
 
-    path('massnahmen/', massnahmen_list, name='massnahmen'),
-    path('massnahmen/<int:pk>', massnahmen_detail, name='massnahmen-detail'),
+    path('anbau/', anbau_list, name='anbau'),
+    path('anbau/<int:pk>', anbau_detail, name='anbau-detail'),
+
+    path('anbaumassnahmen/', anbaumassnahmen_list, name='anbaumassnahmen'),
+    path('anbaumassnahmen/<int:pk>', anbaumassnahmen_detail, name='anbaumassnahmen-detail'),
 
     path('users/', user_list, name = 'users'),
     path('users/<int:pk>/', user_detail, name = 'users-detail'),
