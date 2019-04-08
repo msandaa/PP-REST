@@ -2,8 +2,8 @@ from rest_framework import status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
-from API.models import Agrarprodukt,Anbau,Anbaumassnahmen
-from API.serializers import AgrarproduktSerializers, UserSerializer,AnbauSerializers,AnbaumassnahmenSerializers
+from API.models import Agrarprodukt,Anbau,Anbaumassnahmen,Produkt,Produktmassnahmen
+from API.serializers import AgrarproduktSerializers, UserSerializer,AnbauSerializers,AnbaumassnahmenSerializers,ProduktSerializers,ProduktmassnahmenSerializers
 from rest_framework.views import APIView
 from django.http import Http404
 from django.contrib.auth.models import User
@@ -23,7 +23,9 @@ def api_root(request, format=None):
         'users': reverse('api:users', request=request, format=format),
         'agrarprodukt': reverse('api:agrarprodukt', request=request, format=format),
         'anbau': reverse('api:anbau', request=request, format=format),
-        'anbaumassnahmen': reverse('api:anbaumassnahmen', request=request,format=format)
+        'anbaumassnahmen': reverse('api:anbaumassnahmen', request=request,format=format),
+        'produkt': reverse('api:produkt',request = request,format=format),
+        'produktmassnahmen': reverse('api:produktmassnahmen',request = request,format=format)
     })
 
 class AgrarproduktList(generics.ListCreateAPIView):
@@ -47,14 +49,19 @@ class AnbauViewSet(viewsets.ModelViewSet):
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Anbau.objects.all()
     serializer_class = AnbauSerializers
-'''
-class AnbauList(generics.ListCreateAPIView):
-    queryset = Anbau.objects.all()
-    serializer_class = AnbauSerializers
 
-class AnbauDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Anbau.objects.all()
-    serializer_class = AnbauSerializers'''
+class ProduktViewSet(viewsets.ModelViewSet):
+
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Produkt.objects.all()
+    serializer_class = ProduktSerializers
+
+class ProduktmassnahmenViewSet(viewsets.ModelViewSet):
+
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Produktmassnahmen.objects.all()
+    serializer_class = ProduktmassnahmenSerializers
+
 
 
 class AnbaumassnahmenViewSet(viewsets.ModelViewSet):

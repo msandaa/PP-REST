@@ -1,12 +1,36 @@
 from django.db import models
 
 # Create your models here.
+
+class Produkt(models.Model):
+
+    produktname = models.CharField(max_length=50)
+    produktbeschreibung = models.TextField(max_length=300)
+
+    produkte = models.ManyToManyField('self',related_name='produkt', blank=True ,symmetrical=False)
+    agrarprodukt = models.ForeignKey('Agrarprodukt',related_name='produkt',on_delete=models.PROTECT)
+
+    def __str__(self):
+         return self.produktname
+
+class Produktmassnahmen(models.Model):
+
+    name = models.CharField(max_length=50)
+    beschreibung = models.TextField(max_length=300)
+
+    produkt = models.ForeignKey('Produkt', related_name='produktmassnahmen', on_delete=models.PROTECT)
+
+    def __str__(self):
+         return self.name
+
+
 class Agrarprodukt(models.Model):
 
    agrarprodukt = models.CharField(max_length=50)
    los_chargennummer = models.CharField(max_length=50)
-
    produktionsart = models.CharField(max_length=50)
+
+   #produkt = models.ForeignKey('Produkt', related_name='agrarprodukt', on_delete=models.PROTECT, blank=True, null=True)
 
    def __str__(self):
        return self.agrarprodukt
@@ -14,8 +38,7 @@ class Agrarprodukt(models.Model):
 class Anbau(models.Model):
 
     verantwortlicher = models.ForeignKey('auth.User', related_name='anbau', on_delete=models.PROTECT)
-    agrarprodukt = models.ForeignKey(Agrarprodukt, related_name = 'anbau', on_delete=models.CASCADE)
-
+    agrarprodukt = models.OneToOneField(Agrarprodukt, related_name = 'anbau', on_delete=models.CASCADE)
 
     nutzflaechennr = models.CharField(max_length=50)
     nutzflaeche = models.CharField(max_length=50)
