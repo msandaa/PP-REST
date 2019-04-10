@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from API.models import Agrarprodukt,Anbau,Anbaumassnahmen,Produkt,Produktmassnahmen
-from API.serializers import AgrarproduktSerializers, UserSerializer,AnbauSerializers,AnbaumassnahmenSerializers,ProduktSerializers,ProduktmassnahmenSerializers,ProduktShowAllSerializer
+from API.serializers import AgrarproduktSerializers, UserSerializer,AnbauSerializers,AnbaumassnahmenSerializers,ProduktSerializers,ProduktmassnahmenSerializers,ProduktShowAllSerializer,AgrarproduktShowAllSerializer
 from rest_framework.views import APIView
 from django.http import Http404
 from django.contrib.auth.models import User
@@ -76,7 +76,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 @api_view(['GET'])
-def showAll(request, pk):
+def ProduktShowAll(request, pk):
 
     try:
         produkt = Produkt.objects.get(pk=pk)
@@ -85,4 +85,16 @@ def showAll(request, pk):
 
     if request.method == 'GET':
         serializer = ProduktShowAllSerializer(produkt, context={'request': request})
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def AgrarproduktShowAll(request, pk):
+
+    try:
+        agrarprodukt = Agrarprodukt.objects.get(pk=pk)
+    except Agrarrodukt.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AgrarproduktShowAllSerializer(agrarprodukt, context={'request': request})
         return Response(serializer.data)
