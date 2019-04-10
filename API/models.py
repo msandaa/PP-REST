@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 
 class Produkt(models.Model):
 
@@ -8,7 +8,7 @@ class Produkt(models.Model):
     produktbeschreibung = models.TextField(max_length=300)
 
     produkte = models.ManyToManyField('self',related_name='produkt', blank=True ,symmetrical=False)
-    agrarprodukt = models.ForeignKey('Agrarprodukt',related_name='produkt',on_delete=models.PROTECT)
+    agrarprodukt = models.ForeignKey('Agrarprodukt',related_name='produkt',blank=True, null=True, on_delete=models.PROTECT)
 
     def __str__(self):
          return self.produktname
@@ -30,7 +30,6 @@ class Agrarprodukt(models.Model):
    los_chargennummer = models.CharField(max_length=50)
    produktionsart = models.CharField(max_length=50)
 
-   #produkt = models.ForeignKey('Produkt', related_name='agrarprodukt', on_delete=models.PROTECT, blank=True, null=True)
 
    def __str__(self):
        return self.agrarprodukt
