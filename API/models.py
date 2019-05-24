@@ -8,7 +8,7 @@ class Produkt(models.Model):
     produktbeschreibung = models.TextField(max_length=300)
 
     produkte = models.ManyToManyField('self',related_name='produkt', blank=True ,symmetrical=False)
-    agrarprodukt = models.ForeignKey('Agrarprodukt',related_name='produkt',blank=True, null=True, on_delete=models.PROTECT)
+    agrarprodukt = models.ForeignKey('Agrarprodukte',related_name='produkt',blank=True, null=True, on_delete=models.PROTECT)
 
     def __str__(self):
          return self.produktname
@@ -24,7 +24,7 @@ class Produktmassnahmen(models.Model):
          return self.name
 
 
-class Agrarprodukt(models.Model):
+class Agrarprodukte(models.Model):
 
    agrarprodukt = models.CharField(max_length=50)
    los_chargennummer = models.CharField(max_length=50)
@@ -34,10 +34,10 @@ class Agrarprodukt(models.Model):
    def __str__(self):
        return self.agrarprodukt
 
-class Anbau(models.Model):
+class Nutzflaechen(models.Model):
 
-    verantwortlicher = models.ForeignKey('auth.User', related_name='anbau', on_delete=models.PROTECT)
-    agrarprodukt = models.OneToOneField(Agrarprodukt, related_name = 'anbau', on_delete=models.CASCADE)
+    verantwortlicher = models.ForeignKey('auth.User', related_name='nutzflaeche', on_delete=models.PROTECT)
+    agrarprodukt = models.OneToOneField(Agrarprodukte, related_name = 'nutzflaeche', on_delete=models.CASCADE)
 
     nutzflaechennr = models.CharField(max_length=50)
     nutzflaeche = models.CharField(max_length=50)
@@ -51,10 +51,10 @@ class Anbau(models.Model):
     def __str__(self):
         return self.nutzflaechennr
 
-class Anbaumassnahmen(models.Model):
+class Nutzflaechenmassnahmen(models.Model):
 
-    verantwortlicher = models.ForeignKey('auth.User', related_name='anbaumassnahmen', on_delete=models.PROTECT)
-    anbau = models.ForeignKey(Anbau, related_name='anbaumassnahmen',on_delete=models.CASCADE)
+    verantwortlicher = models.ForeignKey('auth.User', related_name='nutzflaechenmassnahmen', on_delete=models.PROTECT)
+    nutzflaechen = models.ForeignKey(Nutzflaechen, related_name='nutzflaechenmassnahmen',on_delete=models.CASCADE)
 
     massnahme = models.CharField(max_length=50)
     landwirtschftliches_nutzfahrzeug = models.CharField(max_length=50)

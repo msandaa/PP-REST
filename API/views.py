@@ -2,8 +2,8 @@ from rest_framework import status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
-from API.models import Agrarprodukt,Anbau,Anbaumassnahmen,Produkt,Produktmassnahmen
-from API.serializers import AgrarproduktSerializers, UserSerializer,AnbauSerializers,AnbaumassnahmenSerializers,ProduktSerializers,ProduktmassnahmenSerializers,ProduktShowAllSerializer,AgrarproduktShowAllSerializer
+from API.models import Agrarprodukte,Nutzflaechen,Nutzflaechenmassnahmen,Produkt,Produktmassnahmen
+from API.serializers import AgrarprodukteSerializers, UserSerializer,NutzflaechenSerializers,NutzflaechenmassnahmenSerializers,ProduktSerializers,ProduktmassnahmenSerializers,ProduktShowAllSerializer,AgrarprodukteShowAllSerializer
 from rest_framework.views import APIView
 from django.http import Http404
 from django.contrib.auth.models import User
@@ -21,33 +21,33 @@ def api_root(request, format=None):
         'users': reverse('api:users', request=request, format=format),
         'produkt': reverse('api:produkt',request = request,format=format),
         'produktmassnahmen': reverse('api:produktmassnahmen',request = request,format=format),
-        'agrarprodukt': reverse('api:agrarprodukt', request=request, format=format),
-        'anbau': reverse('api:anbau', request=request, format=format),
-        'anbaumassnahmen': reverse('api:anbaumassnahmen', request=request,format=format)
+        'agrarprodukte': reverse('api:agrarprodukte', request=request, format=format),
+        'nutzflaechen': reverse('api:nutzflaechen', request=request, format=format),
+        'nutzflaechenmassnahmen': reverse('api:nutzflaechenmassnahmen', request=request,format=format)
     })
 
 
-class AgrarproduktList(generics.ListCreateAPIView):
+class AgrarprodukteList(generics.ListCreateAPIView):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Agrarprodukt.objects.all()
-    serializer_class = AgrarproduktSerializers
+    queryset = Agrarprodukte.objects.all()
+    serializer_class = AgrarprodukteSerializers
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('agrarprodukt',)
 
 
-class AgrarproduktDetail(generics.RetrieveUpdateDestroyAPIView):
+class AgrarprodukteDetail(generics.RetrieveUpdateDestroyAPIView):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Agrarprodukt.objects.all()
-    serializer_class = AgrarproduktSerializers
+    queryset = Agrarprodukte.objects.all()
+    serializer_class = AgrarprodukteSerializers
 
 
-class AnbauViewSet(viewsets.ModelViewSet):
+class NutzflaechenViewSet(viewsets.ModelViewSet):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Anbau.objects.all()
-    serializer_class = AnbauSerializers
+    queryset = Nutzflaechen.objects.all()
+    serializer_class = NutzflaechenSerializers
 
 class ProduktViewSet(viewsets.ModelViewSet):
 
@@ -63,11 +63,11 @@ class ProduktmassnahmenViewSet(viewsets.ModelViewSet):
 
 
 
-class AnbaumassnahmenViewSet(viewsets.ModelViewSet):
+class NutzflaechenmassnahmenViewSet(viewsets.ModelViewSet):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Anbaumassnahmen.objects.all()
-    serializer_class = AnbaumassnahmenSerializers
+    queryset = Nutzflaechenmassnahmen.objects.all()
+    serializer_class = NutzflaechenmassnahmenSerializers
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -88,13 +88,13 @@ def ProduktShowAll(request, pk):
         return Response(serializer.data)
 
 @api_view(['GET'])
-def AgrarproduktShowAll(request, pk):
+def AgrarprodukteShowAll(request, pk):
 
     try:
-        agrarprodukt = Agrarprodukt.objects.get(pk=pk)
-    except Agrarrodukt.DoesNotExist:
+        agrarprodukt = Agrarprodukte.objects.get(pk=pk)
+    except Agrarprodukte.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = AgrarproduktShowAllSerializer(agrarprodukt, context={'request': request})
+        serializer = AgrarprodukteShowAllSerializer(agrarprodukt, context={'request': request})
         return Response(serializer.data)

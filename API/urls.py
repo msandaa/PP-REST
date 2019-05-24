@@ -5,25 +5,25 @@ from django.conf.urls import include
 from rest_framework.authtoken.views import obtain_auth_token
 
 
-from API.views import  UserViewSet, api_root, AnbaumassnahmenViewSet, AnbauViewSet,ProduktViewSet,ProduktmassnahmenViewSet
+from API.views import  UserViewSet, api_root, NutzflaechenmassnahmenViewSet, NutzflaechenViewSet,ProduktViewSet,ProduktmassnahmenViewSet
 from rest_framework import renderers
 
-anbau_list = AnbauViewSet.as_view({
+nutzflaechen_list = NutzflaechenViewSet.as_view({
     'get': 'list',
     'post': 'create'
 })
-anbau_detail = AnbauViewSet.as_view({
+nutzflaechen_detail = NutzflaechenViewSet.as_view({
     'get': 'retrieve',
     'put': 'update',
     'patch': 'partial_update',
     'delete': 'destroy'
 })
 
-anbaumassnahmen_list = AnbaumassnahmenViewSet.as_view({
+nutzflaechenmassnahmen_list = NutzflaechenmassnahmenViewSet.as_view({
     'get': 'list',
     'post': 'create'
 })
-anbaumassnahmen_detail = AnbaumassnahmenViewSet.as_view({
+nutzflaechenmassnahmen_detail = NutzflaechenmassnahmenViewSet.as_view({
     'get': 'retrieve',
     'put': 'update',
     'patch': 'partial_update',
@@ -64,14 +64,14 @@ urlpatterns = [
 
     path('', views.api_root),
 
-    path('agrarprodukt/', views.AgrarproduktList.as_view(), name='agrarprodukt'),
-    path('agrarprodukt/<int:pk>/', views.AgrarproduktDetail.as_view(), name='agrarprodukt-detail'),
+    path('agrarprodukte/', views.AgrarprodukteList.as_view(), name='agrarprodukte'),
+    path('agrarprodukte/<int:pk>/', views.AgrarprodukteDetail.as_view(), name='agrarprodukte-detail'),
 
-    path('anbau/', anbau_list, name='anbau'),
-    path('anbau/<int:pk>', anbau_detail, name='anbau-detail'),
+    path('nutzflaechen/', nutzflaechen_list, name='nutzflaechen'),
+    path('nutzflaechen/<int:pk>', nutzflaechen_detail, name='nutzflaechen-detail'),
 
-    path('anbaumassnahmen/', anbaumassnahmen_list, name='anbaumassnahmen'),
-    path('anbaumassnahmen/<int:pk>', anbaumassnahmen_detail, name='anbaumassnahmen-detail'),
+    path('nutzflaechenmassnahmen/', nutzflaechenmassnahmen_list, name='nutzflaechenmassnahmen'),
+    path('nutzflaechenmassnahmen/<int:pk>', nutzflaechenmassnahmen_detail, name='nutzflaechenmassnahmen-detail'),
 
     path('produkt/', produkt_list, name='produkt'),
     path('produkt/<int:pk>', produkt_detail, name='produkt-detail'),
@@ -86,6 +86,6 @@ urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
     path('produkt/<int:pk>/show-all', views.ProduktShowAll, name='produkt-showAll'),
-    path('agrarprodukt/<int:pk>/show-all', views.AgrarproduktShowAll, name='agrarprodukt-showAll'),
+    path('agrarprodukte/<int:pk>/show-all', views.AgrarprodukteShowAll, name='agrarprodukte-showAll'),
 
     ]
