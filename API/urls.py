@@ -5,7 +5,7 @@ from django.conf.urls import include
 from rest_framework.authtoken.views import obtain_auth_token
 
 
-from API.views import  UserViewSet, api_root, NutzflaechenmassnahmenViewSet, NutzflaechenViewSet,ProduktViewSet,ProduktmassnahmenViewSet
+from API.views import  UserViewSet, api_root, NutzflaechenmassnahmenViewSet, NutzflaechenViewSet,ProdukteViewSet,ProduktmassnahmenViewSet
 from rest_framework import renderers
 
 nutzflaechen_list = NutzflaechenViewSet.as_view({
@@ -30,11 +30,11 @@ nutzflaechenmassnahmen_detail = NutzflaechenmassnahmenViewSet.as_view({
     'delete': 'destroy'
 })
 
-produkt_list = ProduktViewSet.as_view({
+produkte_list = ProdukteViewSet.as_view({
     'get': 'list',
     'post': 'create'
 })
-produkt_detail = ProduktViewSet.as_view({
+produkte_detail = ProdukteViewSet.as_view({
     'get': 'retrieve',
     'put': 'update',
     'patch': 'partial_update',
@@ -73,8 +73,8 @@ urlpatterns = [
     path('nutzflaechenmassnahmen/', nutzflaechenmassnahmen_list, name='nutzflaechenmassnahmen'),
     path('nutzflaechenmassnahmen/<int:pk>', nutzflaechenmassnahmen_detail, name='nutzflaechenmassnahmen-detail'),
 
-    path('produkt/', produkt_list, name='produkt'),
-    path('produkt/<int:pk>', produkt_detail, name='produkt-detail'),
+    path('produkte/', produkte_list, name='produkte'),
+    path('produkte/<int:pk>', produkte_detail, name='produkte-detail'),
 
     path('produktmassnahmen/', produktmassnahmen_list, name='produktmassnahmen'),
     path('produktmassnahmen/<int:pk>', produktmassnahmen_detail, name='produktmassnahmen-detail'),
@@ -85,7 +85,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
-    path('produkt/<int:pk>/show-all', views.ProduktShowAll, name='produkt-showAll'),
+    path('produkte/<int:pk>/show-all', views.ProdukteShowAll, name='produkte-showAll'),
     path('agrarprodukte/<int:pk>/show-all', views.AgrarprodukteShowAll, name='agrarprodukte-showAll'),
 
     ]

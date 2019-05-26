@@ -1,16 +1,16 @@
 from rest_framework import serializers
-from .models import Agrarprodukte,Nutzflaechen,Nutzflaechenmassnahmen,Produkt,Produktmassnahmen
+from .models import Agrarprodukte,Nutzflaechen,Nutzflaechenmassnahmen,Produkte,Produktmassnahmen
 from django.contrib.auth.models import User
 
 
-class ProduktSerializers(serializers.HyperlinkedModelSerializer):
+class ProdukteSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = Produkt
+        model = Produkte
         fields = ('id','url','produktname', 'produktbeschreibung','agrarprodukt','produktmassnahmen' , 'produkte')
         extra_kwargs = {
-            'url': {'view_name': 'api:produkt-detail'},
-            'produkte': {'view_name': 'api:produkt-detail'},
+            'url': {'view_name': 'api:produkte-detail'},
+            'produkte': {'view_name': 'api:produkte-detail'},
             'agrarprodukt' : {'view_name' : 'api:agrarprodukte-detail'},
             'produktmassnahmen' : {'view_name' : 'api:produktmassnahmen-detail'}
         }
@@ -22,7 +22,7 @@ class ProduktmassnahmenSerializers(serializers.HyperlinkedModelSerializer):
         fields = ('id','url','name', 'beschreibung','produkt')
         extra_kwargs = {
             'url': {'view_name': 'api:produktmassnahmen-detail'},
-            'produkt': {'view_name': 'api:produkt-detail'}
+            'produkt': {'view_name': 'api:produkte-detail'}
         }
 
 
@@ -45,7 +45,7 @@ class AgrarprodukteSerializers(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {
             'url': { 'view_name' :'api:agrarprodukte-detail'},
             'nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
-            'produkt': {'view_name' : 'api:produkt-detail'}
+            'produkt': {'view_name' : 'api:produkte-detail'}
         }
 
 class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
@@ -111,52 +111,52 @@ class ProduktmassnahmenShowAllSerializer(serializers.ModelSerializer):
         fields = ('id','name', 'beschreibung')
 
 
-class SubSubSubSubProduktShowAllSerializer(serializers.ModelSerializer):
+class SubSubSubSubProdukteShowAllSerializer(serializers.ModelSerializer):
 
     #produkte = ProduktShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
     agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
-        model = Produkt
+        model = Produkte
         fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
 
-class SubSubSubProduktShowAllSerializer(serializers.ModelSerializer):
+class SubSubSubProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubSubSubSubProduktShowAllSerializer(many = True,read_only = True)
+    produkte = SubSubSubSubProdukteShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
     agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
-        model = Produkt
+        model = Produkte
         fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
 
-class SubSubProduktShowAllSerializer(serializers.ModelSerializer):
+class SubSubProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubSubSubProduktShowAllSerializer(many = True,read_only = True)
+    produkte = SubSubSubProdukteShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
     agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
-        model = Produkt
+        model = Produkte
         fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
 
-class SubProduktShowAllSerializer(serializers.ModelSerializer):
+class SubProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubSubProduktShowAllSerializer(many = True,read_only = True)
+    produkte = SubSubProdukteShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
     agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
-        model = Produkt
+        model = Produkte
         fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
 
-class ProduktShowAllSerializer(serializers.ModelSerializer):
+class ProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubProduktShowAllSerializer(many = True , read_only = True)
+    produkte = SubProdukteShowAllSerializer(many = True , read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
     agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
-        model = Produkt
+        model = Produkte
         fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')

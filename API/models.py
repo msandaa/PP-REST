@@ -2,7 +2,7 @@ from django.db import models
 
 
 
-class Produkt(models.Model):
+class Produkte(models.Model):
 
     produktname = models.CharField(max_length=50)
     produktbeschreibung = models.TextField(max_length=300)
@@ -18,7 +18,7 @@ class Produktmassnahmen(models.Model):
     name = models.CharField(max_length=50)
     beschreibung = models.TextField(max_length=300)
 
-    produkt = models.ForeignKey('Produkt', related_name='produktmassnahmen', on_delete=models.PROTECT)
+    produkt = models.ForeignKey('Produkte', related_name='produktmassnahmen', on_delete=models.PROTECT)
 
     def __str__(self):
          return self.name
@@ -35,6 +35,8 @@ class Agrarprodukte(models.Model):
        return self.agrarprodukt
 
 class Nutzflaechen(models.Model):
+
+#Nutzflächen!!! Bei verantowrtlicher plural benutzen!! Dann benso in UsersSerializer ändern
 
     verantwortlicher = models.ForeignKey('auth.User', related_name='nutzflaeche', on_delete=models.PROTECT)
     agrarprodukt = models.OneToOneField(Agrarprodukte, related_name = 'nutzflaeche', on_delete=models.CASCADE)

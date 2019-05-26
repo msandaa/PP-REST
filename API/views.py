@@ -2,8 +2,8 @@ from rest_framework import status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
-from API.models import Agrarprodukte,Nutzflaechen,Nutzflaechenmassnahmen,Produkt,Produktmassnahmen
-from API.serializers import AgrarprodukteSerializers, UserSerializer,NutzflaechenSerializers,NutzflaechenmassnahmenSerializers,ProduktSerializers,ProduktmassnahmenSerializers,ProduktShowAllSerializer,AgrarprodukteShowAllSerializer
+from API.models import Agrarprodukte,Nutzflaechen,Nutzflaechenmassnahmen,Produkte,Produktmassnahmen
+from API.serializers import AgrarprodukteSerializers, UserSerializer,NutzflaechenSerializers,NutzflaechenmassnahmenSerializers,ProdukteSerializers,ProduktmassnahmenSerializers,ProdukteShowAllSerializer,AgrarprodukteShowAllSerializer
 from rest_framework.views import APIView
 from django.http import Http404
 from django.contrib.auth.models import User
@@ -19,7 +19,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 def api_root(request, format=None):
     return Response({
         'users': reverse('api:users', request=request, format=format),
-        'produkt': reverse('api:produkt',request = request,format=format),
+        'produkte': reverse('api:produkte',request = request,format=format),
         'produktmassnahmen': reverse('api:produktmassnahmen',request = request,format=format),
         'agrarprodukte': reverse('api:agrarprodukte', request=request, format=format),
         'nutzflaechen': reverse('api:nutzflaechen', request=request, format=format),
@@ -49,11 +49,11 @@ class NutzflaechenViewSet(viewsets.ModelViewSet):
     queryset = Nutzflaechen.objects.all()
     serializer_class = NutzflaechenSerializers
 
-class ProduktViewSet(viewsets.ModelViewSet):
+class ProdukteViewSet(viewsets.ModelViewSet):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Produkt.objects.all()
-    serializer_class = ProduktSerializers
+    queryset = Produkte.objects.all()
+    serializer_class = ProdukteSerializers
 
 class ProduktmassnahmenViewSet(viewsets.ModelViewSet):
 
@@ -76,15 +76,15 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 @api_view(['GET'])
-def ProduktShowAll(request, pk):
+def ProdukteShowAll(request, pk):
 
     try:
-        produkt = Produkt.objects.get(pk=pk)
-    except Produkt.DoesNotExist:
+        produkt = Produkte.objects.get(pk=pk)
+    except Produkte.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = ProduktShowAllSerializer(produkt, context={'request': request})
+        serializer = ProdukteShowAllSerializer(produkt, context={'request': request})
         return Response(serializer.data)
 
 @api_view(['GET'])
