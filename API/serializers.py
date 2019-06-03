@@ -19,7 +19,7 @@ class ProduktmassnahmenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Produktmassnahmen
-        fields = ('id','url','name', 'beschreibung','produkt')
+        fields = ('id','url','massnahme', 'beschreibung','produkt')
         extra_kwargs = {
             'url': {'view_name': 'api:produktmassnahmen-detail'},
             'produkt': {'view_name': 'api:produkte-detail'}
@@ -41,7 +41,7 @@ class AgrarprodukteSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Agrarprodukte
-        fields = ('id','url','agrarprodukt','los_chargennummer','nutzflaeche','produkt')
+        fields = ('id','url','agrarprodukt','los_chargennummer','produktionsart','produzent_name','produzent_straße','produzent_ort','nutzflaeche','produkt')
         extra_kwargs = {
             'url': { 'view_name' :'api:agrarprodukte-detail'},
             'nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
@@ -52,7 +52,7 @@ class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Nutzflaechen
-        fields = ('id','url','nutzflaechennr', 'nutzflaeche','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
+        fields = ('id','url','nutzflaechennummer','kreisnummer','kreis','bundeslandnummer','bundelsland', 'nutzflaeche','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
         extra_kwargs = {
             'url': {'view_name': 'api:nutzflaechen-detail'},
             'agrarprodukt': {'view_name': 'api:agrarprodukte-detail'},
@@ -71,7 +71,7 @@ class NutzflaechenmassnahmenSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Nutzflaechenmassnahmen
-        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','startuhrzeit_der_bearbeitung','nutzflaechen','verantwortlicher')
+        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke','durchschnittliche_fahrgeschwindigkeit','bearbeitungsbreite','bearbeitet_nutzfläche','flächenleistung','nutzflaechen','verantwortlicher')
         extra_kwargs = {
             'url': { 'view_name' :'api:nutzflaechenmassnahmen-detail'},
             'nutzflaechen': {'view_name' : 'api:nutzflaechen-detail'},
@@ -95,7 +95,7 @@ class AgrarprodukteShowAllSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Nutzflaechen
-            fields = ('id','nutzflaechennr', 'nutzflaeche','verantwortlicher' ,'nutzflaechenmassnahmen')
+            fields = ('id','nutzflaechennummer', 'nutzflaeche','verantwortlicher' ,'nutzflaechenmassnahmen')
 
 
     nutzflaeche = NutzflaechenShowAllSerializers(read_only = True)
@@ -108,7 +108,7 @@ class AgrarprodukteShowAllSerializer(serializers.ModelSerializer):
 class ProduktmassnahmenShowAllSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produktmassnahmen
-        fields = ('id','name', 'beschreibung')
+        fields = ('id','massnahme', 'beschreibung')
 
 
 class SubSubSubSubProdukteShowAllSerializer(serializers.ModelSerializer):
