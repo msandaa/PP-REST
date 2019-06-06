@@ -52,7 +52,7 @@ class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Nutzflaechen
-        fields = ('id','url','nutzflaechennummer','kreisnummer','kreis','bundeslandnummer','bundelsland', 'nutzflaeche','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
+        fields = ('id','url','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundelsland', 'nutzflaeche','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
         extra_kwargs = {
             'url': {'view_name': 'api:nutzflaechen-detail'},
             'agrarprodukt': {'view_name': 'api:agrarprodukte-detail'},
@@ -65,16 +65,16 @@ class NutzflaechenmassnahmenSerializers(serializers.ModelSerializer):
 
     url = serializers.HyperlinkedIdentityField(view_name='api:nutzflaechenmassnahmen-detail', read_only=True)
 
-    nutzflaechen = serializers.HyperlinkedRelatedField(view_name='api:nutzflaechen-detail', queryset = Nutzflaechen.objects.all())
+    nutzflaeche = serializers.HyperlinkedRelatedField(view_name='api:nutzflaechen-detail', queryset = Nutzflaechen.objects.all())
     verantwortlicher = serializers.HyperlinkedRelatedField(view_name='api:users-detail',queryset = User.objects.all())
 
 
     class Meta:
         model = Nutzflaechenmassnahmen
-        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke','durchschnittliche_fahrgeschwindigkeit','bearbeitungsbreite','bearbeitet_nutzfläche','flächenleistung','nutzflaechen','verantwortlicher')
+        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke','durchschnittliche_fahrgeschwindigkeit','bearbeitungsbreite','bearbeitet_nutzfläche','flächenleistung','nutzflaeche','verantwortlicher')
         extra_kwargs = {
             'url': { 'view_name' :'api:nutzflaechenmassnahmen-detail'},
-            'nutzflaechen': {'view_name' : 'api:nutzflaechen-detail'},
+            'nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
             'verantwortlicher': {'view_name' : 'api:users-detail'}
         }
 

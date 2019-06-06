@@ -82,10 +82,10 @@ urlpatterns = [
     path('users/', user_list, name = 'users'),
     path('users/<int:pk>/', user_detail, name = 'users-detail'),
 
-    path('api-auth/', include('rest_framework.urls')),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
-
     path('produkte/<int:pk>/show-all', views.ProdukteShowAll, name='produkte-showAll'),
     path('agrarprodukte/<int:pk>/show-all', views.AgrarprodukteShowAll, name='agrarprodukte-showAll'),
+
+    path('api-auth/', include('rest_framework.urls')),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
     ]

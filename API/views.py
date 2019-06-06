@@ -49,6 +49,9 @@ class NutzflaechenViewSet(viewsets.ModelViewSet):
     queryset = Nutzflaechen.objects.all()
     serializer_class = NutzflaechenSerializers
 
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('agrarprodukt',)
+
 class ProdukteViewSet(viewsets.ModelViewSet):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -68,6 +71,9 @@ class NutzflaechenmassnahmenViewSet(viewsets.ModelViewSet):
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Nutzflaechenmassnahmen.objects.all()
     serializer_class = NutzflaechenmassnahmenSerializers
+
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('nutzflaeche',)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):

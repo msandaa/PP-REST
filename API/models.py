@@ -61,7 +61,7 @@ class Nutzflaechen(models.Model):
 class Nutzflaechenmassnahmen(models.Model):
 
     verantwortlicher = models.ForeignKey('auth.User', related_name='nutzflaechenmassnahmen', on_delete=models.PROTECT)
-    nutzflaechen = models.ForeignKey(Nutzflaechen, related_name='nutzflaechenmassnahmen',on_delete=models.CASCADE)
+    nutzflaeche = models.ForeignKey(Nutzflaechen, related_name='nutzflaechenmassnahmen',on_delete=models.CASCADE)
 
     massnahme = models.CharField(max_length=50)
     landwirtschftliches_nutzfahrzeug = models.CharField(max_length=50)
