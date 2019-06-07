@@ -80,6 +80,9 @@ class NutzflaechenmassnahmenSerializers(serializers.ModelSerializer):
 
 
 
+
+
+
 class AgrarprodukteShowAllSerializer(serializers.ModelSerializer):
 
 
@@ -109,6 +112,9 @@ class ProduktmassnahmenShowAllSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produktmassnahmen
         fields = ('id','massnahme', 'beschreibung')
+
+
+
 
 
 class SubSubSubSubProdukteShowAllSerializer(serializers.ModelSerializer):

@@ -9,7 +9,7 @@ from django.http import Http404
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from rest_framework.reverse import reverse
-from API.permissions import IsOwnerOrReadOnly
+#from API.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -30,6 +30,8 @@ def api_root(request, format=None):
 class AgrarprodukteList(generics.ListCreateAPIView):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #-- wird nicht benötigt, da in setting.py schon als default deklariert ist
+
     queryset = Agrarprodukte.objects.all()
     serializer_class = AgrarprodukteSerializers
     filter_backends = (DjangoFilterBackend,)
@@ -38,14 +40,20 @@ class AgrarprodukteList(generics.ListCreateAPIView):
 
 class AgrarprodukteDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Agrarprodukte.objects.all()
     serializer_class = AgrarprodukteSerializers
 
+#
+#
+# OB hier generics. oder veiwsets. als View-Klasse gewählt wird macht hier nur geringen unterschied
+# Durch Refraktormßnahmen könnten AgrarproduktList und AgrarproduktDetail zu einem ViewSet zusammengefasst werden
+# siehe: https://www.django-rest-framework.org/api-guide/generic-views/
+# siehe: https://www.django-rest-framework.org/api-guide/viewsets/
+#
+#
 
 class NutzflaechenViewSet(viewsets.ModelViewSet):
 
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Nutzflaechen.objects.all()
     serializer_class = NutzflaechenSerializers
 
@@ -54,31 +62,28 @@ class NutzflaechenViewSet(viewsets.ModelViewSet):
 
 class ProdukteViewSet(viewsets.ModelViewSet):
 
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Produkte.objects.all()
     serializer_class = ProdukteSerializers
 
 class ProduktmassnahmenViewSet(viewsets.ModelViewSet):
 
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Produktmassnahmen.objects.all()
     serializer_class = ProduktmassnahmenSerializers
 
-
-
 class NutzflaechenmassnahmenViewSet(viewsets.ModelViewSet):
 
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Nutzflaechenmassnahmen.objects.all()
     serializer_class = NutzflaechenmassnahmenSerializers
 
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('nutzflaeche',)
 
-
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+
 
 
 @api_view(['GET'])
