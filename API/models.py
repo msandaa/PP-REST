@@ -3,7 +3,7 @@ from django.db import models
 class Produkte(models.Model):
 
     produkte = models.ManyToManyField('self',related_name='produkt', blank=True ,symmetrical=False)
-    agrarprodukt = models.ForeignKey('Agrarprodukte',related_name='produkt',blank=True, null=True, on_delete=models.SET_NULL)
+    agrarprodukt = models.ForeignKey('Agrarprodukte',related_name='wird_verwendet_in',blank=True, null=True, on_delete=models.SET_NULL)
     # SET_NULL - Pordukt soll nicht gelöscht werden, wenn Agrarproduk gelöscht wird
 
     produktname = models.CharField(max_length=50)
@@ -26,23 +26,26 @@ class Produktmassnahmen(models.Model):
 
 class Agrarprodukte(models.Model):
 
-   agrarprodukt = models.CharField(max_length=50)
-   los_chargennummer = models.CharField(max_length=50)
+    nutzflaeche = models.OneToOneField('Nutzflaechen', related_name = 'agrarprodukt', on_delete=models.PROTECT)
+    # SET_NULL - Nutzflaeche kann auch ohne agrarproduk existieren
 
-   produktionsart = models.CharField(max_length=50)
+    agrarprodukt = models.CharField(max_length=50)
+    los_chargennummer = models.CharField(max_length=50)
 
-   produzent_name = models.CharField(max_length=50)
-   produzent_straße = models.CharField(max_length=50)
-   produzent_ort = models.CharField(max_length=50)
+    produktionsart = models.CharField(max_length=50)
 
-   def __str__(self):
-       return self.agrarprodukt
+    produzent_name = models.CharField(max_length=50)
+    produzent_straße = models.CharField(max_length=50)
+    produzent_ort = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.agrarprodukt
 
 class Nutzflaechen(models.Model):
 
     verantwortlicher = models.ForeignKey('auth.User', related_name='nutzflaeche',blank=True, null=True, on_delete=models.SET_NULL)
     # SET_NULL - Nutzflaeche soll nicht gelöscht werden, wenn verantwortlicher gelöscht wird
-    agrarprodukt = models.OneToOneField(Agrarprodukte, related_name = 'nutzflaeche',blank=True, null=True, on_delete=models.SET_NULL)
+    #agrarprodukt = models.OneToOneField(Agrarprodukte, related_name = 'nutzflaeche',blank=True, null=True, on_delete=models.SET_NULL)
     # SET_NULL - Nutzflaeche kann auch ohne agrarproduk existieren
 
     boxnummer = models.IntegerField()

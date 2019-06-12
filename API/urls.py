@@ -25,8 +25,8 @@ nutzflaechenmassnahmen_list = NutzflaechenmassnahmenViewSet.as_view({
 })
 nutzflaechenmassnahmen_detail = NutzflaechenmassnahmenViewSet.as_view({
     'get': 'retrieve',
-#    'put': 'update',
-#    'patch': 'partial_update',
+#    'put': 'update',                             # Nutzflaechenmassnahmen und Produktmassnahmen
+#    'patch': 'partial_update',                   # dürfen nicht geupdatet werden
     'delete': 'destroy'
 })
 
@@ -47,8 +47,6 @@ produktmassnahmen_list = ProduktmassnahmenViewSet.as_view({
 })
 produktmassnahmen_detail = ProduktmassnahmenViewSet.as_view({
     'get': 'retrieve',
-#    'put': 'update',
-#    'patch': 'partial_update',
     'delete': 'destroy'
 })
 
@@ -86,6 +84,6 @@ urlpatterns = [
     path('agrarprodukte/<int:pk>/show-all', views.AgrarprodukteShowAll, name='agrarprodukte-showAll'),
 
     path('api-auth/', include('rest_framework.urls')),
-#    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
     ]

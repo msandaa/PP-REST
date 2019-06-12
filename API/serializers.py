@@ -2,6 +2,23 @@ from rest_framework import serializers
 from .models import Agrarprodukte,Nutzflaechen,Nutzflaechenmassnahmen,Produkte,Produktmassnahmen
 from django.contrib.auth.models import User
 
+#Mehr Informationen
+#
+#über HyperLinkedmodelserializer:
+#https://www.django-rest-framework.org/api-guide/serializers/#hyperlinkedmodelserializer
+#
+#über Hyperlinked Views in Meta-Klasse mit extra_kwargs_:
+#https://www.django-rest-framework.org/api-guide/serializers/#how-hyperlinked-views-are-determined
+#
+#über read_only_fields in Meta-Klasse:
+#https://www.django-rest-framework.org/api-guide/serializers/#specifying-read-only-fields
+#
+#siehe Kommentar in NutzflaechenmassnahmenSerializers um eine andere Art und Weise
+#Verknüpfungen über Hyperlinks zu erstellen kennenzulernen
+#
+#
+#
+
 
 class ProdukteSerializers(serializers.HyperlinkedModelSerializer):
 
@@ -14,6 +31,8 @@ class ProdukteSerializers(serializers.HyperlinkedModelSerializer):
             'agrarprodukt' : {'view_name' : 'api:agrarprodukte-detail'},
             'produktmassnahmen' : {'view_name' : 'api:produktmassnahmen-detail'}
         }
+        read_only_fields = ('produktmassnahmen',)
+
 
 class ProduktmassnahmenSerializers(serializers.HyperlinkedModelSerializer):
 
@@ -41,12 +60,15 @@ class AgrarprodukteSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Agrarprodukte
-        fields = ('id','url','agrarprodukt','los_chargennummer','produktionsart','produzent_name','produzent_straße','produzent_ort','nutzflaeche','produkt')
+        fields = ('id','url','agrarprodukt','los_chargennummer','produktionsart','produzent_name','produzent_straße','produzent_ort','nutzflaeche','wird_verwendet_in')
         extra_kwargs = {
             'url': { 'view_name' :'api:agrarprodukte-detail'},
             'nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
-            'produkt': {'view_name' : 'api:produkte-detail'}
+            'wird_verwendet_in': {'view_name' : 'api:produkte-detail'}
         }
+        read_only_fields = ('wird_verwendet_in',)
+
+        # wird_verwendet_in ist read_only weil die Verknüpfen Produkt-Agraprodukt über das Produkt hergestellt wird
 
 class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
 
@@ -59,15 +81,22 @@ class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
             'nutzflaechenmassnahmen': {'view_name': 'api:nutzflaechenmassnahmen-detail'},
             'verantwortlicher': {'view_name': 'api:users-detail'}
         }
+        read_only_fields = ('nutzflaechenmassnahmen','agrarprodukt',)
+
+        #nutzflaechenmassnahmen sind read_only da sie nicht mehr verändert werden dürfen
+        #agrarproduk ist read_only weil die Verknüpfen zum agrarprodukt immer über das Agrarprodukt selbst hergestellt wird
 
 
-class NutzflaechenmassnahmenSerializers(serializers.ModelSerializer):
+class NutzflaechenmassnahmenSerializers(serializers.HyperlinkedModelSerializer):
 
-    url = serializers.HyperlinkedIdentityField(view_name='api:nutzflaechenmassnahmen-detail', read_only=True)
 
-    nutzflaeche = serializers.HyperlinkedRelatedField(view_name='api:nutzflaechen-detail', queryset = Nutzflaechen.objects.all())
-    verantwortlicher = serializers.HyperlinkedRelatedField(view_name='api:users-detail',queryset = User.objects.all())
-
+    #Diesen Code, müsste man benutzen, würde man die Felder nicht in der Meta-Klasse deklarieren
+    #
+    #url = serializers.HyperlinkedIdentityField(view_name='api:nutzflaechenmassnahmen-detail', read_only=True)
+    #nutzflaeche = serializers.HyperlinkedRelatedField(view_name='api:nutzflaechen-detail', queryset = Nutzflaechen.objects.all())
+    #verantwortlicher = serializers.HyperlinkedRelatedField(view_name='api:users-detail',queryset = User.objects.all())
+    #
+    #siehe auch: https://www.django-rest-framework.org/api-guide/relations/#serializer-relations
 
     class Meta:
         model = Nutzflaechenmassnahmen

@@ -30,7 +30,7 @@ def api_root(request, format=None):
 class AgrarprodukteList(generics.ListCreateAPIView):
 
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    #-- wird nicht benötigt, da in setting.py schon als default deklariert ist
+    #-- wird nicht benötigt, da in setting.py schon als default-Einstellung deklariert ist
 
     queryset = Agrarprodukte.objects.all()
     serializer_class = AgrarprodukteSerializers
@@ -43,14 +43,16 @@ class AgrarprodukteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Agrarprodukte.objects.all()
     serializer_class = AgrarprodukteSerializers
 
+#          /\
+#          ||
 #
-#
-# OB hier generics. oder veiwsets. als View-Klasse gewählt wird macht hier nur geringen unterschied
+# Ob hier generics. oder veiwsets. als View-Klasse gewählt wird macht hier nur geringen unterschied
 # Durch Refraktormßnahmen könnten AgrarproduktList und AgrarproduktDetail zu einem ViewSet zusammengefasst werden
 # siehe: https://www.django-rest-framework.org/api-guide/generic-views/
 # siehe: https://www.django-rest-framework.org/api-guide/viewsets/
 #
-#
+#          ||
+#          \/
 
 class NutzflaechenViewSet(viewsets.ModelViewSet):
 
