@@ -27,7 +27,6 @@ class Produktmassnahmen(models.Model):
 class Agrarprodukte(models.Model):
 
     nutzflaeche = models.OneToOneField('Nutzflaechen', related_name = 'agrarprodukt', on_delete=models.PROTECT)
-    # SET_NULL - Nutzflaeche kann auch ohne agrarproduk existieren
 
     agrarprodukt = models.CharField(max_length=50)
     los_chargennummer = models.CharField(max_length=50)
@@ -45,8 +44,6 @@ class Nutzflaechen(models.Model):
 
     verantwortlicher = models.ForeignKey('auth.User', related_name='nutzflaeche',blank=True, null=True, on_delete=models.SET_NULL)
     # SET_NULL - Nutzflaeche soll nicht gelöscht werden, wenn verantwortlicher gelöscht wird
-    #agrarprodukt = models.OneToOneField(Agrarprodukte, related_name = 'nutzflaeche',blank=True, null=True, on_delete=models.SET_NULL)
-    # SET_NULL - Nutzflaeche kann auch ohne agrarproduk existieren
 
     boxnummer = models.IntegerField()
     nutzflaechennummer = models.IntegerField()
@@ -56,7 +53,7 @@ class Nutzflaechen(models.Model):
     bundeslandnummer = models.IntegerField()
     bundelsland = models.CharField(max_length=50)
 
-    nutzflaeche = models.FloatField()
+    nutzflaeche_in_ha = models.FloatField()
 
     def __str__(self):
         return str(self.nutzflaechennummer)
@@ -79,11 +76,11 @@ class Nutzflaechenmassnahmen(models.Model):
     bearbeitungszeit = models.TimeField(auto_now=False, auto_now_add=False)
     unterbrechungszeit = models.TimeField(auto_now=False, auto_now_add=False)
 
-    zurückgelegte_strecke = models.FloatField()
-    durchschnittliche_fahrgeschwindigkeit = models.FloatField()
-    bearbeitungsbreite = models.FloatField()
-    bearbeitet_nutzfläche = models.FloatField()
-    flächenleistung = models.FloatField()
+    zurückgelegte_strecke_in_km = models.FloatField()
+    durchschnittliche_fahrgeschwindigkeit_in_kmh = models.FloatField()
+    bearbeitungsbreite_in_m = models.FloatField()
+    bearbeitet_nutzfläche_in_ha = models.FloatField()
+    flächenleistung_in_hah = models.FloatField()
 
     def __str__(self):
         return self.massnahme

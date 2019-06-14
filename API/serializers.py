@@ -74,7 +74,7 @@ class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Nutzflaechen
-        fields = ('id','url','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundelsland', 'nutzflaeche','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
+        fields = ('id','url','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundelsland', 'nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
         extra_kwargs = {
             'url': {'view_name': 'api:nutzflaechen-detail'},
             'agrarprodukt': {'view_name': 'api:agrarprodukte-detail'},
@@ -100,7 +100,7 @@ class NutzflaechenmassnahmenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Nutzflaechenmassnahmen
-        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke','durchschnittliche_fahrgeschwindigkeit','bearbeitungsbreite','bearbeitet_nutzfläche','flächenleistung','nutzflaeche','verantwortlicher')
+        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke_in_km','durchschnittliche_fahrgeschwindigkeit_in_kmh','bearbeitungsbreite_in_m','bearbeitet_nutzfläche_in_ha','flächenleistung_in_hah','nutzflaeche','verantwortlicher')
         extra_kwargs = {
             'url': { 'view_name' :'api:nutzflaechenmassnahmen-detail'},
             'nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},

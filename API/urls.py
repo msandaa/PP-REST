@@ -5,8 +5,19 @@ from django.conf.urls import include
 from rest_framework.authtoken.views import obtain_auth_token
 
 
-from API.views import  UserViewSet, api_root, NutzflaechenmassnahmenViewSet, NutzflaechenViewSet,ProdukteViewSet,ProduktmassnahmenViewSet
+from API.views import  UserViewSet, api_root, NutzflaechenmassnahmenViewSet, NutzflaechenViewSet,ProdukteViewSet,ProduktmassnahmenViewSet,AgrarprodukteViewSet
 from rest_framework import renderers
+
+agrarprodukte_list = AgrarprodukteViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+agrarprodukte_detail = AgrarprodukteViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
 
 nutzflaechen_list = NutzflaechenViewSet.as_view({
     'get': 'list',
@@ -62,8 +73,8 @@ urlpatterns = [
 
     path('', views.api_root),
 
-    path('agrarprodukte/', views.AgrarprodukteList.as_view(), name='agrarprodukte'),
-    path('agrarprodukte/<int:pk>/', views.AgrarprodukteDetail.as_view(), name='agrarprodukte-detail'),
+    path('agrarprodukte/', agrarprodukte_list, name='agrarprodukte'),
+    path('agrarprodukte/<int:pk>/', agrarprodukte_detail, name='agrarprodukte-detail'),
 
     path('nutzflaechen/', nutzflaechen_list, name='nutzflaechen'),
     path('nutzflaechen/<int:pk>', nutzflaechen_detail, name='nutzflaechen-detail'),

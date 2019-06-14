@@ -9,7 +9,6 @@ from django.http import Http404
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from rest_framework.reverse import reverse
-#from API.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -27,32 +26,6 @@ def api_root(request, format=None):
     })
 
 
-class AgrarprodukteList(generics.ListCreateAPIView):
-
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    #-- wird nicht benötigt, da in setting.py schon als default-Einstellung deklariert ist
-
-    queryset = Agrarprodukte.objects.all()
-    serializer_class = AgrarprodukteSerializers
-    filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('agrarprodukt',)
-
-
-class AgrarprodukteDetail(generics.RetrieveUpdateDestroyAPIView):
-
-    queryset = Agrarprodukte.objects.all()
-    serializer_class = AgrarprodukteSerializers
-
-#          /\
-#          ||
-#
-# Ob hier generics. oder veiwsets. als View-Klasse gewählt wird macht hier nur geringen unterschied
-# Durch Refraktormßnahmen könnten AgrarproduktList und AgrarproduktDetail zu einem ViewSet zusammengefasst werden
-# siehe: https://www.django-rest-framework.org/api-guide/generic-views/
-# siehe: https://www.django-rest-framework.org/api-guide/viewsets/
-#
-#          ||
-#          \/
 
 class NutzflaechenViewSet(viewsets.ModelViewSet):
 
@@ -85,6 +58,37 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
 
 
+class AgrarprodukteViewSet(viewsets.ModelViewSet):
+
+    #authentication_classes = (SessionAuthentication, TokenAuthentication)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #-- wird nicht benötigt, da in settings.py schon als default-Einstellung deklariert ist
+
+    queryset = Agrarprodukte.objects.all()
+    serializer_class = AgrarprodukteSerializers
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('agrarprodukt',)
+
+
+# Ob hier generics. oder veiwsets. als View-Klasse gewählt wird macht hier nur geringen unterschied
+# Durch Refraktormßnahmen könnten AgrarproduktList und AgrarproduktDetail zu einem ViewSet zusammengefasst werden
+# siehe: https://www.django-rest-framework.org/api-guide/generic-views/
+# siehe: https://www.django-rest-framework.org/api-guide/viewsets/
+#
+#class AgrarprodukteList(generics.ListCreateAPIView):
+#
+#
+#
+#    queryset = Agrarprodukte.objects.all()
+#    serializer_class = AgrarprodukteSerializers
+#    filter_backends = (DjangoFilterBackend,)
+#    filterset_fields = ('agrarprodukt',)
+#
+#
+#class AgrarprodukteDetail(generics.RetrieveUpdateDestroyAPIView):
+#
+#    queryset = Agrarprodukte.objects.all()
+#    serializer_class = AgrarprodukteSerializers
 
 
 
