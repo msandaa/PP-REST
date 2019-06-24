@@ -40,10 +40,16 @@ class ProdukteViewSet(viewsets.ModelViewSet):
     queryset = Produkte.objects.all()
     serializer_class = ProdukteSerializers
 
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('hergestellt_aus_agrarprodukt',)
+
 class ProduktmassnahmenViewSet(viewsets.ModelViewSet):
 
     queryset = Produktmassnahmen.objects.all()
     serializer_class = ProduktmassnahmenSerializers
+
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('produkt',)
 
 class NutzflaechenmassnahmenViewSet(viewsets.ModelViewSet):
 
@@ -51,7 +57,7 @@ class NutzflaechenmassnahmenViewSet(viewsets.ModelViewSet):
     serializer_class = NutzflaechenmassnahmenSerializers
 
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('nutzflaeche',)
+    filterset_fields = ('ausgeführt_auf_nutzflaeche',)
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
@@ -67,7 +73,7 @@ class AgrarprodukteViewSet(viewsets.ModelViewSet):
     queryset = Agrarprodukte.objects.all()
     serializer_class = AgrarprodukteSerializers
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('agrarprodukt',)
+    filterset_fields = ('agrarprodukt','angebaut_auf_nutzflaeche')
 
 
 # Ob hier generics. oder veiwsets. als View-Klasse gewählt wird macht hier nur geringen unterschied

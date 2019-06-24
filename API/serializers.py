@@ -24,13 +24,13 @@ class ProdukteSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Produkte
-        fields = ('id','url','produktname', 'produktbeschreibung','agrarprodukt','produktmassnahmen' , 'produkte')
+        fields = ('id','url','produktname', 'produktbeschreibung','produktmassnahmen','hergestellt_aus_agrarprodukt', 'besteht_aus_produkte')
         extra_kwargs = {
             'url': {'view_name': 'api:produkte-detail'},
-            'produkte': {'view_name': 'api:produkte-detail'},
-            'agrarprodukt' : {'view_name' : 'api:agrarprodukte-detail'},
-            'produktmassnahmen' : {'view_name' : 'api:produktmassnahmen-detail'}
-        }
+            'produktmassnahmen' : {'view_name' : 'api:produktmassnahmen-detail'},
+            'hergestellt_aus_agrarprodukt' : {'view_name' : 'api:agrarprodukte-detail'},
+            'besteht_aus_produkte': {'view_name': 'api:produkte-detail'},
+            }
         read_only_fields = ('produktmassnahmen',)
 
 
@@ -60,21 +60,21 @@ class AgrarprodukteSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Agrarprodukte
-        fields = ('id','url','agrarprodukt','los_chargennummer','produktionsart','produzent_name','produzent_straße','produzent_ort','nutzflaeche','wird_verwendet_in')
+        fields = ('id','url','agrarprodukt','los_chargennummer','produktionsart','produzent_name','produzent_straße','produzent_ort','angebaut_auf_nutzflaeche','wird_verwendet_in_produkte')
         extra_kwargs = {
             'url': { 'view_name' :'api:agrarprodukte-detail'},
-            'nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
-            'wird_verwendet_in': {'view_name' : 'api:produkte-detail'}
+            'angebaut_auf_nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
+            'wird_verwendet_in_produkte': {'view_name' : 'api:produkte-detail'}
         }
-        read_only_fields = ('wird_verwendet_in',)
+        read_only_fields = ('wird_verwendet_in_produkte',)
 
-        # wird_verwendet_in ist read_only weil die Verknüpfen Produkt-Agraprodukt über das Produkt hergestellt wird
+        # wird_verwendet_in_produkte ist read_only weil die Verknüpfen Produkt-Agraprodukt über das Produkt hergestellt wird
 
 class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Nutzflaechen
-        fields = ('id','url','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundelsland', 'nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
+        fields = ('id','url','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundesland', 'nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
         extra_kwargs = {
             'url': {'view_name': 'api:nutzflaechen-detail'},
             'agrarprodukt': {'view_name': 'api:agrarprodukte-detail'},
@@ -100,10 +100,10 @@ class NutzflaechenmassnahmenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Nutzflaechenmassnahmen
-        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke_in_km','durchschnittliche_fahrgeschwindigkeit_in_kmh','bearbeitungsbreite_in_m','bearbeitet_nutzfläche_in_ha','flächenleistung_in_hah','nutzflaeche','verantwortlicher')
+        fields = ('id','url' ,'massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke_in_km','durchschnittliche_fahrgeschwindigkeit_in_kmh','bearbeitungsbreite_in_m','bearbeitet_nutzfläche_in_ha','flächenleistung_in_hah','ausgeführt_auf_nutzflaeche','verantwortlicher')
         extra_kwargs = {
             'url': { 'view_name' :'api:nutzflaechenmassnahmen-detail'},
-            'nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
+            'ausgeführt_auf_nutzflaeche': {'view_name' : 'api:nutzflaechen-detail'},
             'verantwortlicher': {'view_name' : 'api:users-detail'}
         }
 
@@ -121,20 +121,20 @@ class AgrarprodukteShowAllSerializer(serializers.ModelSerializer):
 
             class Meta:
                 model = Nutzflaechenmassnahmen
-                fields = ('id' ,'massnahme','landwirtschftliches_nutzfahrzeug','startuhrzeit_der_bearbeitung','verantwortlicher')
+                fields = ('id','massnahme','landwirtschftliches_nutzfahrzeug','datum','startuhrzeit_der_bearbeitung','enduhrzeit_der_bearbeitung','zeitdifferenz','bearbeitungszeit','unterbrechungszeit','zurückgelegte_strecke_in_km','durchschnittliche_fahrgeschwindigkeit_in_kmh','bearbeitungsbreite_in_m','bearbeitet_nutzfläche_in_ha','flächenleistung_in_hah','ausgeführt_auf_nutzflaeche','verantwortlicher')
 
         nutzflaechenmassnahmen = NutzflaechenmassnahmenShowAllSerializers(many=True ,read_only = True)
 
         class Meta:
             model = Nutzflaechen
-            fields = ('id','nutzflaechennummer', 'nutzflaeche','verantwortlicher' ,'nutzflaechenmassnahmen')
+            fields = ('id','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundesland', 'nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
 
 
-    nutzflaeche = NutzflaechenShowAllSerializers(read_only = True)
+    angebaut_auf_nutzflaeche = NutzflaechenShowAllSerializers(read_only = True)
 
     class Meta:
         model = Agrarprodukte
-        fields = ('id','agrarprodukt','los_chargennummer','produkt','nutzflaeche')
+        fields = ('id','agrarprodukt','los_chargennummer','wird_verwendet_in_produkte','angebaut_auf_nutzflaeche')
 
 
 class ProduktmassnahmenShowAllSerializer(serializers.ModelSerializer):
@@ -150,48 +150,48 @@ class SubSubSubSubProdukteShowAllSerializer(serializers.ModelSerializer):
 
     #produkte = ProduktShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
-    agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
+    hergestellt_aus_agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
         model = Produkte
-        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
+        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','besteht_aus_produkte','hergestellt_aus_agrarprodukt')
 
 class SubSubSubProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubSubSubSubProdukteShowAllSerializer(many = True,read_only = True)
+    besteht_aus_produkte = SubSubSubSubProdukteShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
-    agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
+    hergestellt_aus_agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
         model = Produkte
-        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
+        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','besteht_aus_produkte','hergestellt_aus_agrarprodukt')
 
 class SubSubProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubSubSubProdukteShowAllSerializer(many = True,read_only = True)
+    besteht_aus_produkte = SubSubSubProdukteShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
-    agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
+    hergestellt_aus_agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
         model = Produkte
-        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
+        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','besteht_aus_produkte','hergestellt_aus_agrarprodukt')
 
 class SubProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubSubProdukteShowAllSerializer(many = True,read_only = True)
+    besteht_aus_produkte = SubSubProdukteShowAllSerializer(many = True,read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
-    agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
+    hergestellt_aus_agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
         model = Produkte
-        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
+        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','besteht_aus_produkte','hergestellt_aus_agrarprodukt')
 
 class ProdukteShowAllSerializer(serializers.ModelSerializer):
 
-    produkte = SubProdukteShowAllSerializer(many = True , read_only = True)
+    besteht_aus_produkte = SubProdukteShowAllSerializer(many = True , read_only = True)
     produktmassnahmen = ProduktmassnahmenShowAllSerializer(many = True, read_only = True)
-    agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
+    hergestellt_aus_agrarprodukt = AgrarprodukteShowAllSerializer(read_only = True)
 
     class Meta:
         model = Produkte
-        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','produkte','agrarprodukt')
+        fields = ('id','produktname', 'produktbeschreibung','produktmassnahmen','besteht_aus_produkte','hergestellt_aus_agrarprodukt')

@@ -2,8 +2,8 @@ from django.db import models
 
 class Produkte(models.Model):
 
-    produkte = models.ManyToManyField('self',related_name='produkt', blank=True ,symmetrical=False)
-    agrarprodukt = models.ForeignKey('Agrarprodukte',related_name='wird_verwendet_in',blank=True, null=True, on_delete=models.SET_NULL)
+    besteht_aus_produkte = models.ManyToManyField('self',related_name='produkt', blank=True ,symmetrical=False)
+    hergestellt_aus_agrarprodukt = models.ForeignKey('Agrarprodukte',related_name='wird_verwendet_in_produkte',blank=True, null=True, on_delete=models.SET_NULL)
     # SET_NULL - Pordukt soll nicht gelöscht werden, wenn Agrarproduk gelöscht wird
 
     produktname = models.CharField(max_length=50)
@@ -26,7 +26,7 @@ class Produktmassnahmen(models.Model):
 
 class Agrarprodukte(models.Model):
 
-    nutzflaeche = models.OneToOneField('Nutzflaechen', related_name = 'agrarprodukt', on_delete=models.PROTECT)
+    angebaut_auf_nutzflaeche = models.OneToOneField('Nutzflaechen', related_name = 'agrarprodukt', on_delete=models.PROTECT)
 
     agrarprodukt = models.CharField(max_length=50)
     los_chargennummer = models.CharField(max_length=50)
@@ -51,7 +51,7 @@ class Nutzflaechen(models.Model):
     kreisnummer = models.IntegerField()
     kreis = models.CharField(max_length=50)
     bundeslandnummer = models.IntegerField()
-    bundelsland = models.CharField(max_length=50)
+    bundesland = models.CharField(max_length=50)
 
     nutzflaeche_in_ha = models.FloatField()
 
@@ -62,7 +62,7 @@ class Nutzflaechenmassnahmen(models.Model):
 
     verantwortlicher = models.ForeignKey('auth.User', related_name='nutzflaechenmassnahmen', blank=True, null=True, on_delete=models.SET_NULL)
     # SET_NULL - Nutzflaechenmassnahme soll nicht gelöscht werden, wenn verantwortlicher gelöscht wird
-    nutzflaeche = models.ForeignKey(Nutzflaechen, related_name='nutzflaechenmassnahmen',on_delete=models.CASCADE) #wie erricht man, das der Frmeschlüssel nichtmehr geänder werden kann ?
+    ausgeführt_auf_nutzflaeche = models.ForeignKey(Nutzflaechen, related_name='nutzflaechenmassnahmen',on_delete=models.CASCADE) #wie erricht man, das der Frmeschlüssel nichtmehr geänder werden kann ?
     # CASCADE - Nutzflaechenmassnahmen werden gelöscht wenn dazugehöriges Nutzflaeche gelöscht wird
 
     massnahme = models.CharField(max_length=50)
