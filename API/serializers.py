@@ -74,7 +74,7 @@ class NutzflaechenSerializers(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Nutzflaechen
-        fields = ('id','url','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundesland', 'nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
+        fields = ('id','url','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundesland','longitude','latitude','nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
         extra_kwargs = {
             'url': {'view_name': 'api:nutzflaechen-detail'},
             'agrarprodukt': {'view_name': 'api:agrarprodukte-detail'},
@@ -127,7 +127,7 @@ class AgrarprodukteShowAllSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Nutzflaechen
-            fields = ('id','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundesland', 'nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
+            fields = ('id','nutzflaechennummer','boxnummer','kreisnummer','kreis','bundeslandnummer','bundesland','longitude','latitude', 'nutzflaeche_in_ha','agrarprodukt' ,'verantwortlicher','nutzflaechenmassnahmen')
 
 
     angebaut_auf_nutzflaeche = NutzflaechenShowAllSerializers(read_only = True)

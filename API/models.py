@@ -53,6 +53,9 @@ class Nutzflaechen(models.Model):
     bundeslandnummer = models.IntegerField()
     bundesland = models.CharField(max_length=50)
 
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+
     nutzflaeche_in_ha = models.FloatField()
 
     def __str__(self):
@@ -68,7 +71,7 @@ class Nutzflaechenmassnahmen(models.Model):
     massnahme = models.CharField(max_length=50)
     landwirtschftliches_nutzfahrzeug = models.CharField(max_length=50)
 
-    datum = models.DateTimeField()
+    datum = models.DateField()
 
     startuhrzeit_der_bearbeitung = models.TimeField(auto_now=False, auto_now_add=False)
     enduhrzeit_der_bearbeitung = models.TimeField(auto_now=False, auto_now_add=False)
