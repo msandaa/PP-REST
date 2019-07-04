@@ -73,7 +73,7 @@ class AgrarprodukteViewSet(viewsets.ModelViewSet):
     queryset = Agrarprodukte.objects.all()
     serializer_class = AgrarprodukteSerializers
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('agrarprodukt','angebaut_auf_nutzflaeche')
+    filterset_fields = ('angebaut_auf_nutzflaeche',)
 
 
 # Ob hier generics. oder veiwsets. als View-Klasse gewählt wird macht hier nur geringen unterschied

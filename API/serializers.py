@@ -108,10 +108,13 @@ class NutzflaechenmassnahmenSerializers(serializers.HyperlinkedModelSerializer):
         }
 
 
-
-
-
-
+#
+#
+#Die ShowAllSerializer geben eine verschachtelte JSON-Datei mit der "kompletten" Produktnachverfolgung aus,
+#dementsprechend sind auch Serializer verschschtelt
+#Es werden ModelSerializer verwendet da diese Datein auf keine anderen Ressourcen über ein URI verweisen sollen
+#
+#
 class AgrarprodukteShowAllSerializer(serializers.ModelSerializer):
 
 
@@ -141,11 +144,15 @@ class ProduktmassnahmenShowAllSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produktmassnahmen
         fields = ('id','massnahme', 'beschreibung')
-
-
-
-
-
+#
+#
+#Produkte können aus Produkte bestehen
+#In diesem Fall geht das auf bis zu 4 Unterbenenen
+#
+#Ein Seriailzer kann nicht sich selbst als Feld definiieren
+#weswegen SubSerializer eingeführt wurden
+#
+#
 class SubSubSubSubProdukteShowAllSerializer(serializers.ModelSerializer):
 
     #produkte = ProduktShowAllSerializer(many = True,read_only = True)
